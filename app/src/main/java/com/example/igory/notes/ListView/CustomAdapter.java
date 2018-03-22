@@ -1,7 +1,11 @@
 package com.example.igory.notes.ListView;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,8 @@ import android.widget.TextView;
 import com.example.igory.notes.R;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by igory on 18.03.2018.
@@ -48,19 +54,22 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         View view= convertView;
-        if(view==null){
-//получаем LayoutInflater для работы с layout-ресурсами
+
+        if(view==null)
+        {
             view= layoutInflater.inflate(R.layout.list_item, parent,false);
+
         }
 
         ListItem p=((ListItem) getItem(position));
 
-// заполняем View в пункте списка данными
         ((TextView) view.findViewById(R.id.textView3)).setText(p.getHead());
         ((TextView) view.findViewById(R.id.textView4)).setText(p.getDescription());
         ((TextView) view.findViewById(R.id.textView5)).setText(p.getDate());
-        ((ImageView) view.findViewById(R.id.imageView3)).setBackgroundColor(p.getColor());
+
+        ((ImageView) view.findViewById(R.id.imageView3)).getBackground().setColorFilter(p.getColor(), PorterDuff.Mode.ADD);
 
         return view;
     }

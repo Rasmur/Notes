@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewDebug;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     int positionItem;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -69,16 +72,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK)
+        {
             if (requestCode == 1)
             {
+
+                Log.d("Main", String.valueOf(items.size()));
+
                 items.add(new ListItem(data.getStringExtra("head"),
                         data.getStringExtra("description"),
                         data.getStringExtra("date")));
 
-                CustomAdapter customAdapter = new CustomAdapter(this, items);
 
-                listView.setAdapter(customAdapter);
             }
             else
             {
@@ -88,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
                         items.get(positionItem).getDate(),
                         items.get(positionItem).getColor()
                 ));
-
-                CustomAdapter customAdapter = new CustomAdapter(this, items);
-
-                listView.setAdapter(customAdapter);
             }
+
+            CustomAdapter customAdapter = new CustomAdapter(this, items);
+
+            listView.setAdapter(customAdapter);
         }
     }
 

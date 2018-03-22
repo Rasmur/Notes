@@ -50,7 +50,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             answerIntent.putExtra("date", time.format("%d.%m.%Y"));
 
             setResult(RESULT_OK, answerIntent);
-
             finish();
         }
         else
