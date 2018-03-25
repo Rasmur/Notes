@@ -4,4 +4,6 @@
     <string name="hand">Заголовок:</string>
     <string name="description">Описание:</string>
     <string name="save">Сохранить</string>
+    <string name="rgb">RGB:</string>
+    <string name="hsv">HSV:</string>
 </resources>
