@@ -30,7 +30,7 @@ public class ListItem implements Parcelable {
                 rand.nextInt(255));
     }
 
-    public ListItem(String head, String description, String date, int color)
+    public ListItem(String head, String description, int color, String date )
     {
         this.head = head;
         this.description = description;

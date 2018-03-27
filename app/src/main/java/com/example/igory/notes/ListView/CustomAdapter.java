@@ -60,7 +60,6 @@ public class CustomAdapter extends BaseAdapter {
         if(view==null)
         {
             view= layoutInflater.inflate(R.layout.list_item, parent,false);
-
         }
 
         ListItem p=((ListItem) getItem(position));
