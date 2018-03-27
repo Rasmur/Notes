@@ -16,11 +16,18 @@ import android.widget.TextView;
 public class ColorPicker extends AppCompatActivity implements View.OnClickListener{
 
     int mainColor;
+    TextView RGB;
+    TextView HSV;
+    ImageView selectedColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_picker);
+
+        RGB = findViewById(R.id.RGB);
+        HSV = findViewById(R.id.HSV);
+        selectedColor = findViewById(R.id.selected_color);
 
         Create create = new Create();
 
@@ -50,10 +57,25 @@ public class ColorPicker extends AppCompatActivity implements View.OnClickListen
         Intent intent = getIntent();
 
         mainColor = intent.getIntExtra("color", 0);
-        findViewById(R.id.selected_color).setBackgroundColor(mainColor);
 
+        int red = Color.red(mainColor);
+        int green = Color.green(mainColor);
+        int blue = Color.blue(mainColor);
 
-        Log.d("Main", "Color");
+        RGB.setText(String.format("RGB: %s,%s,%s",
+                String.valueOf(red),
+                String.valueOf(green),
+                String.valueOf(blue)));
+
+        float[] hsv = new float[3];
+        Color.colorToHSV(mainColor, hsv);
+
+        HSV.setText(String.format("HSV: %s,%s,%s",
+                String.valueOf((int)hsv[0]),
+                String.valueOf((int)hsv[1]),
+                String.valueOf((int)hsv[2])));
+
+        selectedColor.setBackgroundColor(mainColor);
     }
 
     @Override
@@ -72,9 +94,9 @@ public class ColorPicker extends AppCompatActivity implements View.OnClickListen
         int green = Color.green(pixel);
         int blue = Color.blue(pixel);
 
-        ((ImageView) findViewById(R.id.selected_color)).setBackgroundColor(pixel);
+        selectedColor.setBackgroundColor(pixel);
 
-        ((TextView) findViewById(R.id.RGB)).setText(String.format("RGB: %s,%s,%s",
+        RGB.setText(String.format("RGB: %s,%s,%s",
                 String.valueOf(red),
                 String.valueOf(green),
                 String.valueOf(blue)));
@@ -82,12 +104,31 @@ public class ColorPicker extends AppCompatActivity implements View.OnClickListen
         float[] hsv = new float[3];
         Color.colorToHSV(pixel, hsv);
 
-        ((TextView) findViewById(R.id.HSV)).setText(String.format("HSV: %s,%s,%s",
+        HSV.setText(String.format("HSV: %s,%s,%s",
                 String.valueOf((int)hsv[0]),
                 String.valueOf((int)hsv[1]),
                 String.valueOf((int)hsv[2])));
 
         mainColor = pixel;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("mainColor", mainColor);
+        outState.putString("RGB", RGB.getText().toString());
+        outState.putString("HSV", HSV.getText().toString());
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mainColor = savedInstanceState.getInt("mainColor");
+        selectedColor.setBackgroundColor(mainColor);
+        RGB.setText(savedInstanceState.getString("RGB"));
+        HSV.setText(savedInstanceState.getString("HSV"));
     }
 
     @Override

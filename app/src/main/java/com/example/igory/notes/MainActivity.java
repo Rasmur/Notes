@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     List<ListItem> items;
     int positionItem;
-    TabHost.TabSpec tabSpec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(start, 1);
             }
         });
-
-        Log.d("Main", "Mainn");
     }
 
     @Override

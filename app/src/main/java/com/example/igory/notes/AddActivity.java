@@ -1,18 +1,23 @@
 package com.example.igory.notes;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.PersistableBundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -55,8 +60,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         colorView.setBackgroundColor(color);
-
-        Log.d("Main", "Add");
     }
 
     @Override
@@ -76,6 +79,48 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         {
             color = data.getIntExtra("color", 0);
             colorView.setBackgroundColor(color);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("head", head.getText().toString());
+        outState.putString("description", description.getText().toString());
+        outState.putInt("color", color);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        head.setText(savedInstanceState.getString("head"));
+        description.setText(savedInstanceState.getString("description"));
+
+        color = savedInstanceState.getInt("color");
+        colorView.setBackgroundColor(color);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) description.getLayoutParams();
+
+            params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50 , getResources().getDisplayMetrics());
+
+            description.setLayoutParams(params);
+        }
+        else
+        {
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) description.getLayoutParams();
+
+            params.matchConstraintDefaultHeight = 244;
+
+            description.setLayoutParams(params);
         }
     }
 
